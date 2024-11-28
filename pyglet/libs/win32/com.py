@@ -182,15 +182,6 @@ class InterfacePtrMeta(type(ctypes.POINTER(COMInterface))):
 
         return super().__new__(cls, name, bases, dct)
 
-    def __init__(self, name, bases, dct, /, create_pointer_type=True):
-        super().__init__(name, bases, dct)
-
-        if create_pointer_type:
-            # Unless this is the construction of `Interface` or we're already being created
-            # from a pInterface subclass as a helper interface, create a special
-            # _pInterfaceMeta-based subclass so a link is created in the ctypes pointer cache
-            InterfacePtrMeta(f"p{name}", (ctypes.POINTER(bases[0]),), {'_type_': self})
-
 
 # pyglet.util.with_metaclass does not work here, as the base class is from _ctypes.lib
 # See https://wiki.python.org/moin/PortingToPy3k/BilingualQuickRef

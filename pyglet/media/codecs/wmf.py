@@ -827,15 +827,7 @@ class WMFSource(Source):
 
 class WMFDecoder(MediaDecoder):
     def __init__(self):
-
-        self.ole32 = None
         self.MFShutdown = None
-
-        try:
-            # Coinitialize supposed to be called for COMs?
-            ole32.CoInitializeEx(None, COINIT_MULTITHREADED)
-        except OSError as err:
-            warnings.warn(str(err))
 
         try:
             MFStartup(MF_VERSION, 0)
@@ -844,7 +836,6 @@ class WMFDecoder(MediaDecoder):
 
         self.extensions = self._build_decoder_extensions()
 
-        self.ole32 = ole32
         self.MFShutdown = MFShutdown
 
         assert _debug('Windows Media Foundation: Initialized.')
